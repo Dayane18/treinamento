@@ -6,18 +6,6 @@ require_once("inc/init.php");
 require_once("inc/config.ui.php");
 
 //colocar o tratamento de permissão sempre abaixo de require_once("inc/config.ui.php");
-$condicaoAcessarOK = (in_array('USUARIO_ACESSAR', $arrayPermissao, true));
-$condicaoGravarOK = (in_array('USUARIO_GRAVAR', $arrayPermissao, true));
-
-if ($condicaoAcessarOK == false) {
-    unset($_SESSION['login']);
-    header("Location:login.php");
-}
-
-$esconderBtnGravar = "";
-if ($condicaoGravarOK === false) {
-    $esconderBtnGravar = "none";
-}
 
 /* ---------------- PHP Custom Scripts ---------
 
@@ -36,7 +24,7 @@ include("inc/header.php");
 
 //include left panel (navigation)
 //follow the tree in inc/config.ui.php
-$page_nav["configuracao"]["sub"]["grupo"]["active"] = true;
+$page_nav["configuração"]["sub"]["grupo"]["active"] = true;
 
 include("inc/nav.php");
 ?>
@@ -57,7 +45,7 @@ include("inc/nav.php");
         <section id="widget-grid" class="">
             <div class="row">
                 <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable centerBox">
-                    <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false" style="">
+                    <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false" style"">
                         <header>
                             <span class="widget-icon"><i class="fa fa-cog"></i></span>
                             <h2>Usuário</h2>
@@ -81,7 +69,7 @@ include("inc/nav.php");
                                                     <fieldset>
                                                         <div class="row">
                                                             <section class="col col-6">
-                                                                <label class="label">Descrição</label>
+                                                                <label class="label">Nome</label>
                                                                 <label class="input"><i class="icon-prepend fa fa-user"></i>
                                                                     <input id="nome" maxlength="50" name="nome" type="text" value="">
                                                                 </label>
@@ -93,11 +81,9 @@ include("inc/nav.php");
                                                     <button id="btnSearch" type="button" class="btn btn-primary pull-right" title="Buscar">
                                                         <span class="fa fa-search"></span>
                                                     </button>
-                                                    <?php if ($condicaoGravarOK) { ?>
-                                                        <button id="btnNovo" type="button" class="btn btn-primary pull-left" title="Novo">
-                                                            <span class="fa fa-file"></span>
-                                                        </button>
-                                                    <?php } ?>
+                                                    <button type="button" id="btnNovo" class="btn btn-primary" aria-hidden="true" title="Novo" style="display:<?php echo $esconderBtnGravar ?>">
+                                                             <span class="fa fa-file-o"></span>
+                                                    </button>
                                                 </footer>
                                             </div>
                                         </div>
@@ -159,22 +145,23 @@ include("inc/scripts.php");
     });
 
     function listarFiltro() {
-        var nome = $('#nome').val();
+        var nomeUsuario = $('#nome').val();
 
-        $('#resultadoBusca').load('usuarioGrupoFiltroListagem.php?', {
-            nomeFiltro: nome
+
+        $('#resultadoBusca').load('usuarioCadastroFiltroListagem.php?', {
+            nomeFiltro: nomeUsuario,
         });
     }
 
-    function listarFiltro() {
+    /* function listarFiltro() {
 
-        var nome = $('#nome').val();
+        var nomeUsuario = $('#nome').val();
        
         var parametrosUrl = '&nome=' + nome;
-        $('#resultadoBusca').load('usuarioGrupoFiltroListagem.php?' + parametrosUrl);
-    }
+        $('#resultadoBusca').load('usuarioCadastroFiltroListagem.php?' + parametrosUrl);
+    } */
 
     function novo() {
-        $(location).attr('href', 'usuarioGrupoFiltroListagem.php');
+        $(location).attr('href', 'funcionarioCadastro.php');
     }
 </script>

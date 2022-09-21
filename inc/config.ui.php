@@ -4,11 +4,11 @@
 //ribbon breadcrumbs config
 //array("Display Name" => "URL");
 $breadcrumbs = array(
-    "Home" => APP_URL . "/index.php"
+  
 );
 
 include_once "js/repositorio.php";
-session_start();
+/* session_start();
 $login = $_SESSION['login'];
 $codigoLogin = $_SESSION['codigo'];
 $funcionario = $_SESSION['funcionario'];
@@ -53,21 +53,24 @@ if ($row = $result[0]) {
             array_push($arrayPermissao, $row["nome"]);
         }
     }
-}
+} */
 
 $page_nav = array("home" => array("title" => "Home", "icon" => "fa-home", "url" => APP_URL . "/index.php"));
 
 
 //Configurações 
-$condicaoConfiguracoesOK = (in_array('USUARIO_ACESSAR', $arrayPermissao, true));
-$condicaoConfiguracoesOK = (($condicaoConfiguracoesOK) or in_array('PERMISSAOUSUARIO_ACESSAR', $arrayPermissao, true));
-$condicaoConfiguracoesOK = (($condicaoConfiguracoesOK) or in_array('PARAMETRO_ACESSAR', $arrayPermissao, true));
+$condicaoConfiguracoesOK =  true;
+$condicaoConfiguracoesOK = true;
+$condicaoConfiguracoesOK = true;
 
 if ($condicaoConfiguracoesOK) {
-    $page_nav['configuracao'] = array("title" => "Configurações", "icon" => "fa-gear fa-spin");
+    $page_nav['configuracao'] = array("title" => "Cadastro", "icon" => "fa-gear fa-spin");
     $page_nav['configuracao']['sub'] = array();
+    $page_nav['configuracao']['sub'] += array("usuarios" => array("title" => "Usuário", "url" => APP_URL . "/funcionarioCadastroFiltro.php"));
+    
 
-    if (in_array('USUARIO_ACESSAR', $arrayPermissao, true)) {
+
+   /*  if (in_array('USUARIO_ACESSAR', $arrayPermissao, true)) {
         $page_nav['configuracao']['sub'] += array("usuarios" => array("title" => "Usuário", "url" => APP_URL . "/usuarioFiltro.php"));
     }
     if (in_array('USUARIO_ACESSAR', $arrayPermissao, true)) {
@@ -84,19 +87,21 @@ if ($condicaoConfiguracoesOK) {
     // }
     if (in_array('PARAMETRO_ACESSAR', $arrayPermissao, true)) {
         $page_nav['configuracao']['sub'] += array("parametro" => array("title" => "Parâmetros", "url" => APP_URL . "/parametros.php"));
-    }
+    } */
 }
 
-$condicaoOperacaoOk = true;
+$condicaoTabelaBasicaOk = true;
 
 // TABELAS BÁSICAS
-$condicaoTabelaBasicaOk = (in_array('TABELABASICA_ACESSAR', $arrayPermissao, true));
 
 if ($condicaoTabelaBasicaOk) {
     $page_nav['tabelaBasica'] = array("title" => "Tabela Básica", "icon" => "fa fa-table");
     $page_nav['tabelaBasica']['sub'] = array();
+    $page_nav['tabelaBasica']['sub'] += array("cadastroGenero" => array("title" => "Gênero", "url" => APP_URL . "/generoCadastroFiltro.php"));
+    $page_nav['tabelaBasica']['sub'] += array("estadoCivil" => array("title" => "Estado Civil", "url" => APP_URL . "/estadoCivilCadastroFiltro.php"));
+    $page_nav['tabelaBasica']['sub'] += array("dependente" => array("title" => "Dependente", "url" => APP_URL . "/dependenteCadastroFiltro.php"));
 
-    if (in_array('ESCALA_ACESSAR', $arrayPermissao, true)) {
+    /* if (in_array('ESCALA_ACESSAR', $arrayPermissao, true)) {
         $page_nav['tabelaBasica']['sub'] += array("escala" => array("title" => "Escala", "url" => APP_URL . "/tabelaBasica_escalaFiltro.php")); //SYSCC  
     }
     if (in_array('ESPECIALIZACAO_ACESSAR', $arrayPermissao, true)) {
@@ -125,11 +130,11 @@ if ($condicaoTabelaBasicaOk) {
 
     if (in_array('STATUS_ACESSAR', $arrayPermissao, true)) {
         $page_nav['tabelaBasica']['sub'] += array("status" => array("title" => "Status", "url" => APP_URL . "/tabelaBasica_statusFiltro.php")); //SYSCB 
-    }
+    } */
 }
 
 // CADASTROS
-$condicaoCadastroOk = (in_array('CADASTRO_ACESSAR', $arrayPermissao, true));
+/* $condicaoCadastroOk = (in_array('CADASTRO_ACESSAR', $arrayPermissao, true));
 if ($condicaoCadastroOk) {
     $page_nav['cadastro'] = array("title" => "Cadastro", "icon" => "fa-pencil-square-o");
     $page_nav['cadastro']['sub'] = array();
@@ -657,7 +662,7 @@ if ($condicaoEstoqueOk) {
             $page_nav['estoque']['sub']['relatorio']['sub'] += array("consultaFornecedor" => array("title" => "Consulta Fornecedor", "url" => APP_URL . "/estoque_consultaFornecedorFiltro.php"));
         }
     }
-}
+} */
 // }
 
 //configuration variables

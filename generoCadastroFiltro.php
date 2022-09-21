@@ -6,25 +6,21 @@ require_once("inc/init.php");
 require_once("inc/config.ui.php");
 
 //colocar o tratamento de permissão sempre abaixo de require_once("inc/config.ui.php");
-$condicaoAcessarOK = (in_array('USUARIO_ACESSAR', $arrayPermissao, true));
-$condicaoGravarOK = (in_array('USUARIO_GRAVAR', $arrayPermissao, true));
+// $condicaoAcessarOK = (in_array('USUARIO_ACESSAR', $arrayPermissao, true));
+// $condicaoGravarOK = (in_array('USUARIO_GRAVAR', $arrayPermissao, true));
 
-if ($condicaoAcessarOK == false) {
-    unset($_SESSION['login']);
-    header("Location:login.php");
-}
-
-$esconderBtnGravar = "";
-if ($condicaoGravarOK === false) {
-    $esconderBtnGravar = "none";
-}
+// $esconderBtnGravar = "";
+// if ($condicaoGravarOK === false) {
+//     $esconderBtnGravar = "none";
+// }
 
 /* ---------------- PHP Custom Scripts ---------
 
   YOU CAN SET CONFIGURATION VARIABLES HERE BEFORE IT GOES TO NAV, RIBBON, ETC.
   E.G. $page_title = "Custom Title" */
 
-$page_title = "Grupo";
+$page_title = "Gênero Filtro";
+$page_nav['tabelaBasica']['sub']['cadastroGenero']['active'] = true;
 
 /* ---------------- END PHP Custom Scripts ------------- */
 
@@ -36,7 +32,6 @@ include("inc/header.php");
 
 //include left panel (navigation)
 //follow the tree in inc/config.ui.php
-$page_nav["configuracao"]["sub"]["grupo"]["active"] = true;
 
 include("inc/nav.php");
 ?>
@@ -46,7 +41,7 @@ include("inc/nav.php");
     <?php
     //configure ribbon (breadcrumbs) array("name"=>"url"), leave url empty if no url
     //$breadcrumbs["New Crumb"] => "http://url.com"
-    $breadcrumbs["Configurações"] = "";
+    $breadcrumbs["Tabela básica"] = "";
     include("inc/ribbon.php");
     ?>
 
@@ -57,10 +52,10 @@ include("inc/nav.php");
         <section id="widget-grid" class="">
             <div class="row">
                 <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable centerBox">
-                    <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false" style="">
+                    <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false" style"">
                         <header>
                             <span class="widget-icon"><i class="fa fa-cog"></i></span>
-                            <h2>Usuário</h2>
+                            <h2>Gênero Filtro</h2>
                         </header>
                         <div>
                             <div class="widget-body no-padding">
@@ -80,24 +75,32 @@ include("inc/nav.php");
                                                 <div class="panel-body no-padding">
                                                     <fieldset>
                                                         <div class="row">
-                                                            <section class="col col-6">
-                                                                <label class="label">Descrição</label>
-                                                                <label class="input"><i class="icon-prepend fa fa-user"></i>
-                                                                    <input id="nome" maxlength="50" name="nome" type="text" value="">
+                                                            <section class="col col-4">
+                                                                <label class="label">Gênero</label>
+                                                                <label class="input"></i>
+                                                                    <input id="genero" maxlength="50" name="genero"type="text" value="" pattern="[a-zA-Záãâéêíîóôõú\s]+$" onkeyup="verificarNome()">
+                                                                </label>
+                                                            </section>
+                                                            <section class="col col-2 col-auto">
+                                                                <label class="label"> Ativo </label>
+                                                                <label class="select">
+                                                                    <select id="ativo" name="ativo" class="">
+                                                                    <option value=""></option>
+                                                                        <option value="1">Sim</option>
+                                                                        <option value="0">Não</option>
+                                                                    </select><i></i>
                                                                 </label>
                                                             </section>
                                                         </div>
                                                     </fieldset>
                                                 </div>
                                                 <footer>
-                                                    <button id="btnSearch" type="button" class="btn btn-primary pull-right" title="Buscar">
+                                                    <button id="btnSearch" type="button" class="btn btn-info pull-right" title="Buscar">
                                                         <span class="fa fa-search"></span>
                                                     </button>
-                                                    <?php if ($condicaoGravarOK) { ?>
-                                                        <button id="btnNovo" type="button" class="btn btn-primary pull-left" title="Novo">
-                                                            <span class="fa fa-file"></span>
-                                                        </button>
-                                                    <?php } ?>
+                                                    <button id="btnNovo" type="button" class="btn btn-primary pull-right" title="Novo">
+                                                        <span class="fa fa-file"></span>
+                                                    </button>
                                                 </footer>
                                             </div>
                                         </div>
@@ -158,23 +161,42 @@ include("inc/scripts.php");
         });
     });
 
-    function listarFiltro() {
-        var nome = $('#nome').val();
+    function verificarNome() {
 
-        $('#resultadoBusca').load('usuarioGrupoFiltroListagem.php?', {
-            nomeFiltro: nome
-        });
+var texto = document.getElementById("genero").value;
+
+for (letra of texto) {
+    if (!isNaN(texto)) {
+
+        document.getElementById("genero").value = "";
+        return;
     }
+    letraspermitidas = "ABCEDFGHIJKLMNOPQRSTUVXWYZ abcdefghijklmnopqrstuvxwyzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ"
+    var ok = false;
+    for (letra2 of letraspermitidas) {
+        if (letra == letra2) {
+            ok = true;
+        }
+    }
+    if (!ok) {
+        document.getElementById("genero").value = "";
+        return;
+    }
+}
+
+}
+
 
     function listarFiltro() {
 
-        var nome = $('#nome').val();
-       
-        var parametrosUrl = '&nome=' + nome;
-        $('#resultadoBusca').load('usuarioGrupoFiltroListagem.php?' + parametrosUrl);
+        var generoFiltro = $('#genero').val();
+        var ativoFiltro = $('#ativo').val();
+
+        var parametrosUrl = '&generoFiltro=' + encodeURIComponent(generoFiltro) + '&ativoFiltro=' + encodeURIComponent(ativoFiltro) ;
+        $('#resultadoBusca').load('generoCadastroListagem.php?' + parametrosUrl);
     }
 
     function novo() {
-        $(location).attr('href', 'usuarioGrupoFiltroListagem.php');
+        $(location).attr('href', 'generoCadastro.php');
     }
 </script>
